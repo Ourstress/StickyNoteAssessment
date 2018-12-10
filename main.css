@@ -5,11 +5,26 @@ body {
   flex-direction: column;
   -ms-flex-align: center;
   align-items: center;
+  line-height: 36px;
+  font-size: 18px;
 }
 
 header h1 {
   font-size: 54px;
 }
-h1 {
-  font-size: 36px;
+
+#Todos {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-align: center;
+  align-items: center;
+  line-height: 36px;
+  font-size: 18px;
+}
+
+#Todos article {
+  margin: 18px;
+  text-align: center;
 }
