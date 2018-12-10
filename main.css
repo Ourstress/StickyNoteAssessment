@@ -13,7 +13,7 @@ header h1 {
   font-size: 54px;
 }
 
-#Todos {
+#Notes {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: row;
@@ -24,7 +24,7 @@ header h1 {
   font-size: 18px;
 }
 
-#Todos article {
+#Notes article {
   margin: 18px;
   text-align: center;
 }
