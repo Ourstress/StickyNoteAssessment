@@ -1,5 +1,4 @@
-const h1 = document.querySelector("h1");
-function onClick() {
-  console.log("hi");
-}
-h1.addEventListener("click", onClick);
+const todos = document.querySelector("#Todos");
+const helloNote = document.createElement("h1");
+helloNote.textContent = "Hello World Note";
+todos.append(helloNote);
