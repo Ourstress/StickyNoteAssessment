@@ -22,10 +22,18 @@ function createNote(titleText, contentText, timeNow = new Date().getTime()) {
   notes.append(aNote);
 }
 
-// function addNote(){
-//     notesArray.push({ noteID: timeNow, title: titleText, content: contentText });
-//     localStorage.setItem("notes", JSON.stringify(notesArray));
-// }
+function addNote(titleText, contentText) {
+  const timeNow = new Date().getTime();
+  if (titleText !== "" && contentText !== "") {
+    createNote(titleText, contentText, timeNow);
+    notesArray.push({
+      noteID: timeNow,
+      title: titleText,
+      content: contentText
+    });
+    localStorage.setItem("notes", JSON.stringify(notesArray));
+  }
+}
 
 function onPageLoad() {
   notesArray.map(function(note) {
@@ -34,3 +42,11 @@ function onPageLoad() {
 }
 
 onPageLoad();
+
+const addNewNoteForm = document.querySelector("#addNewNoteForm");
+const newNoteTitle = document.querySelector("#newNoteTitle");
+const newNoteContent = document.querySelector("#newNoteContent");
+addNewNoteForm.addEventListener("submit", function(e) {
+  e.preventDefault();
+  addNote(newNoteTitle.value, newNoteContent.value);
+});
