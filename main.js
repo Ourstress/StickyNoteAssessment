@@ -1,25 +1,26 @@
 class StickyNotes {
   constructor() {
     this.stickyNotes = [];
+    this.updateNote = this.updateNote.bind(this);
   }
 
   getNotesLocalStorage() {
     localStorage.getItem("notes")
       ? (this.stickyNotes = JSON.parse(localStorage.getItem("notes")))
-      : (this.stickyNotes = [
-          {
-            ID: new Date().getTime(),
-            title: "hello world",
-            content: "your content goes here"
-          }
-        ]);
+      : "";
   }
 
   renderNotes() {
+    // ADDING THIS INSIDE MAP FUNCTION!!!
     this.stickyNotes.map(function(note) {
-      const newNote = new Note(note.title, note.content, note.noteID);
+      const newNote = new Note(
+        note.title,
+        note.content,
+        note.noteID,
+        this.updateNote
+      );
       newNote.renderNote();
-    });
+    }, this);
   }
   addNewNote(e) {
     e.preventDefault();
@@ -32,10 +33,17 @@ class StickyNotes {
     });
     this.renderNotes();
   }
+
+  updateNote(title, content, noteID) {
+    console.log(this.stickyNotes);
+    this.stickyNotes.find(function(note) {
+      return note.noteID === noteID;
+    });
+  }
 }
 
 class Note {
-  constructor(titleContent, textContent, ID) {
+  constructor(titleContent, textContent, ID, updateNote) {
     this.titleContent = titleContent;
     this.textContent = textContent;
     this.ID = ID;
@@ -44,6 +52,7 @@ class Note {
     this.content = document.createElement("textarea");
     this.editButton = document.createElement("button");
     this.notes = document.querySelector("#Notes");
+    this.updateNote = updateNote;
   }
   renderNote() {
     this.article.ID = this.ID;
@@ -54,8 +63,28 @@ class Note {
     this.content.readOnly = true;
     this.article.append(this.content);
     this.editButton.textContent = "edit";
+    this.editNoteMode = this.editNoteMode.bind(this);
+    this.editButton.addEventListener("click", this.editNoteMode);
     this.article.append(this.editButton);
     this.notes.append(this.article);
+  }
+  editNoteMode() {
+    this.editButton.textContent = "save";
+    this.editButton.removeEventListener("click", this.editNoteMode);
+    this.saveNote = this.saveNote.bind(this);
+    this.editButton.addEventListener("click", this.saveNote);
+    this.title.readOnly = false;
+    this.content.readOnly = false;
+  }
+  saveNote() {
+    if (this.title.value !== "" && this.content.value !== "") {
+      this.updateNote(this.title.value, this.content.value, this.ID);
+      this.editButton.textContent = "edit";
+      this.editButton.removeEventListener("click", this.saveNote);
+      this.editButton.addEventListener("click", this.editNoteMode);
+      this.title.readOnly = true;
+      this.content.readOnly = true;
+    }
   }
 }
 
@@ -70,6 +99,9 @@ const addNewNoteForm = document.querySelector("#addNewNoteForm");
 addNewNoteForm.addEventListener("submit", function(e) {
   stickynotes.addNewNote(e);
 });
+
+// add validation???
+
 // const notes = document.querySelector("#Notes");
 
 // const notesArray = localStorage.getItem("notes")
