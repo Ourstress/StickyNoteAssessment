@@ -25,6 +25,28 @@ header h1 {
 }
 
 #Notes article {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
   margin: 18px;
   text-align: center;
+}
+
+#Notes article textarea,
+form textarea,
+input {
+  text-align: center;
+  font-size: 18px;
+}
+
+form {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-align: center;
+  align-items: center;
+  line-height: 36px;
+  font-size: 18px;
 }
