@@ -1,5 +1,32 @@
-class StickyNotes {
-  constructor() {
+"use strict";
+
+var _createClass = (function() {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+  return function(Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+})();
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+var StickyNotes = (function() {
+  function StickyNotes() {
+    _classCallCheck(this, StickyNotes);
+
     this.stickyNotes = [];
     this.filteredStickies = [];
     this.updateNote = this.updateNote.bind(this);
@@ -10,87 +37,115 @@ class StickyNotes {
     this.searchBar = document.querySelector("#searchBar");
   }
 
-  getNotesLocalStorage() {
-    localStorage.getItem("notes")
-      ? (this.stickyNotes = JSON.parse(localStorage.getItem("notes")))
-      : "";
-  }
+  _createClass(StickyNotes, [
+    {
+      key: "getNotesLocalStorage",
+      value: function getNotesLocalStorage() {
+        localStorage.getItem("notes")
+          ? (this.stickyNotes = JSON.parse(localStorage.getItem("notes")))
+          : "";
+      }
+    },
+    {
+      key: "searchBarEventListener",
+      value: function searchBarEventListener() {
+        var searchBarValue = this.searchBar.value.toLowerCase();
+        this.filteredStickies = this.stickyNotes.filter(function(note) {
+          return note.title.toLowerCase().includes(searchBarValue);
+        });
+        this.renderFilteredNotes();
+      }
+    },
+    {
+      key: "renderNotes",
+      value: function renderNotes() {
+        this.notes.innerHTML = "";
+        this.stickyNotes.map(function(note) {
+          var newNote = new Note(
+            note.title,
+            note.content,
+            note.noteID,
+            this.updateNote,
+            this.deleteNote
+          );
+          newNote.renderNote();
+        }, this);
+        localStorage.setItem("notes", JSON.stringify(this.stickyNotes));
+      }
+    },
+    {
+      key: "renderFilteredNotes",
+      value: function renderFilteredNotes() {
+        this.notes.innerHTML = "";
+        this.filteredStickies.map(function(note) {
+          var newNote = new Note(
+            note.title,
+            note.content,
+            note.noteID,
+            this.updateNote,
+            this.deleteNote
+          );
+          newNote.renderNote();
+        }, this);
+      }
+    },
+    {
+      key: "setup",
+      value: function setup() {
+        this.getNotesLocalStorage();
+        this.renderNotes();
+        this.searchBar.addEventListener("input", this.searchBarEventListener);
+      }
+    },
+    {
+      key: "addNewNote",
+      value: function addNewNote(e) {
+        e.preventDefault();
+        var newNoteTitle = document.querySelector("#newNoteTitle");
+        var newNoteContent = document.querySelector("#newNoteContent");
+        if (newNoteTitle.value !== "") {
+          this.stickyNotes.push({
+            noteID: new Date().getTime(),
+            title: newNoteTitle.value,
+            content: newNoteContent.value
+          });
+          newNoteTitle.value = "";
+          newNoteContent.value = "";
+          localStorage.setItem("notes", JSON.stringify(this.stickyNotes));
+          this.renderNotes();
+        }
+      }
+    },
+    {
+      key: "updateNote",
+      value: function updateNote(title, content, noteID) {
+        var noteToUpdate = this.stickyNotes.find(function(note) {
+          return note.noteID === noteID;
+        });
+        noteToUpdate.title = title;
+        noteToUpdate.content = content;
+        this.renderNotes();
+      }
+    },
+    {
+      key: "deleteNote",
+      value: function deleteNote(noteID) {
+        var indexOfNoteToDelete = this.stickyNotes.findIndex(function(note) {
+          return note.noteID === noteID;
+        });
+        this.stickyNotes.splice(indexOfNoteToDelete, 1);
+        this.renderNotes();
+      }
+    }
+  ]);
 
-  searchBarEventListener() {
-    let searchBarValue = this.searchBar.value.toLowerCase();
-    this.filteredStickies = this.stickyNotes.filter(function(note) {
-      return note.title.toLowerCase().includes(searchBarValue);
-    });
-    this.renderFilteredNotes();
-    console.log(this.filteredStickies);
-    console.log(this.stickyNotes);
-  }
-  renderNotes() {
-    this.notes.innerHTML = "";
-    this.stickyNotes.map(function(note) {
-      const newNote = new Note(
-        note.title,
-        note.content,
-        note.noteID,
-        this.updateNote,
-        this.deleteNote
-      );
-      newNote.renderNote();
-    }, this);
-  }
+  return StickyNotes;
+})();
 
-  renderFilteredNotes() {
-    this.notes.innerHTML = "";
-    this.filteredStickies.map(function(note) {
-      const newNote = new Note(
-        note.title,
-        note.content,
-        note.noteID,
-        this.updateNote,
-        this.deleteNote
-      );
-      newNote.renderNote();
-    }, this);
-  }
+var Note = (function() {
+  function Note(titleContent, textContent, ID, updateNote, deleteNote) {
+    _classCallCheck(this, Note);
 
-  setup() {
-    this.getNotesLocalStorage;
-    this.renderNotes;
-    this.searchBar.addEventListener("input", this.searchBarEventListener);
-  }
-  addNewNote(e) {
-    e.preventDefault();
-    const newNoteTitle = document.querySelector("#newNoteTitle");
-    const newNoteContent = document.querySelector("#newNoteContent");
-    this.stickyNotes.push({
-      noteID: new Date().getTime(),
-      title: newNoteTitle.value,
-      content: newNoteContent.value
-    });
-    newNoteTitle.value = "";
-    newNoteContent.value = "";
-    this.renderNotes();
-  }
-
-  updateNote(title, content, noteID) {
-    const noteToUpdate = this.stickyNotes.find(function(note) {
-      return note.noteID === noteID;
-    });
-    noteToUpdate.title = title;
-    noteToUpdate.content = content;
-    console.log(noteToUpdate);
-  }
-  deleteNote(noteID) {
-    const indexOfNoteToDelete = this.stickyNotes.findIndex(function(note) {
-      return note.noteID === noteID;
-    });
-    this.stickyNotes.splice(indexOfNoteToDelete, 1);
-    this.renderNotes();
-  }
-}
-
-class Note {
-  constructor(titleContent, textContent, ID, updateNote, deleteNote) {
     this.titleContent = titleContent;
     this.textContent = textContent;
     this.ID = ID;
@@ -103,51 +158,68 @@ class Note {
     this.updateNote = updateNote;
     this.deleteNote = deleteNote;
   }
-  renderNote() {
-    this.article.ID = this.ID;
-    this.title.textContent = this.titleContent;
-    this.title.readOnly = true;
-    this.article.append(this.title);
-    this.content.textContent = this.textContent;
-    this.content.readOnly = true;
-    this.article.append(this.content);
-    this.editButton.textContent = "edit";
-    this.editNoteMode = this.editNoteMode.bind(this);
-    this.editButton.addEventListener("click", this.editNoteMode);
-    this.article.append(this.editButton);
-    this.deleteButton.textContent = "delete";
-    this.removeNote = this.removeNote.bind(this);
-    this.deleteButton.addEventListener("click", this.removeNote);
-    this.article.append(this.deleteButton);
-    this.notes.append(this.article);
-  }
-  editNoteMode() {
-    this.editButton.textContent = "save";
-    this.editButton.removeEventListener("click", this.editNoteMode);
-    this.saveNote = this.saveNote.bind(this);
-    this.editButton.addEventListener("click", this.saveNote);
-    this.title.readOnly = false;
-    this.content.readOnly = false;
-  }
-  saveNote() {
-    if (this.title.value !== "" && this.content.value !== "") {
-      this.updateNote(this.title.value, this.content.value, this.ID);
-      this.editButton.textContent = "edit";
-      this.editButton.removeEventListener("click", this.saveNote);
-      this.editButton.addEventListener("click", this.editNoteMode);
-      this.title.readOnly = true;
-      this.content.readOnly = true;
-    }
-  }
-  removeNote() {
-    this.deleteNote(this.ID);
-  }
-}
 
-const stickynotes = new StickyNotes();
+  _createClass(Note, [
+    {
+      key: "renderNote",
+      value: function renderNote() {
+        this.article.ID = this.ID;
+        this.title.textContent = this.titleContent;
+        this.title.readOnly = true;
+        this.article.append(this.title);
+        this.content.textContent = this.textContent;
+        this.content.readOnly = true;
+        this.article.append(this.content);
+        this.editButton.textContent = "edit";
+        this.editNoteMode = this.editNoteMode.bind(this);
+        this.editButton.addEventListener("click", this.editNoteMode);
+        this.article.append(this.editButton);
+        this.deleteButton.textContent = "delete";
+        this.removeNote = this.removeNote.bind(this);
+        this.deleteButton.addEventListener("click", this.removeNote);
+        this.article.append(this.deleteButton);
+        this.notes.append(this.article);
+      }
+    },
+    {
+      key: "editNoteMode",
+      value: function editNoteMode() {
+        this.editButton.textContent = "save";
+        this.editButton.removeEventListener("click", this.editNoteMode);
+        this.saveNote = this.saveNote.bind(this);
+        this.editButton.addEventListener("click", this.saveNote);
+        this.title.readOnly = false;
+        this.content.readOnly = false;
+      }
+    },
+    {
+      key: "saveNote",
+      value: function saveNote() {
+        if (this.title.value !== "" && this.content.value !== "") {
+          this.updateNote(this.title.value, this.content.value, this.ID);
+          this.editButton.textContent = "edit";
+          this.editButton.removeEventListener("click", this.saveNote);
+          this.editButton.addEventListener("click", this.editNoteMode);
+          this.title.readOnly = true;
+          this.content.readOnly = true;
+        }
+      }
+    },
+    {
+      key: "removeNote",
+      value: function removeNote() {
+        this.deleteNote(this.ID);
+      }
+    }
+  ]);
+
+  return Note;
+})();
+
+var stickynotes = new StickyNotes();
 stickynotes.setup();
 
-const addNewNoteForm = document.querySelector("#addNewNoteForm");
+var addNewNoteForm = document.querySelector("#addNewNoteForm");
 addNewNoteForm.addEventListener("submit", function(e) {
   stickynotes.addNewNote(e);
 });
