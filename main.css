@@ -1,52 +1,102 @@
-body {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -ms-flex-align: center;
-  align-items: center;
+body,
+#Notes,
+#addNewNoteForm {
   line-height: 36px;
   font-size: 18px;
+}
+
+body,
+#Notes,
+#Notes article,
+#addNewNoteForm {
+  display: -ms-flexbox;
+  display: flex;
+}
+
+body,
+#addNewNoteForm {
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+body,
+#Notes,
+#addNewNoteForm {
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 header h1 {
   font-size: 54px;
+  text-shadow: 0 -2px 3px rgba(255, 255, 255, 1), 0 2px 3px rgba(0, 0, 0, 0.5),
+    0 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+#Notes,
+#Notes article {
+  -ms-flex-direction: row;
+  flex-direction: row;
 }
 
 #Notes {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -ms-flex-align: center;
-  align-items: center;
-  line-height: 36px;
-  font-size: 18px;
-}
-
-#Notes article {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  margin: 18px;
-  text-align: center;
+  width: 90%;
+  height: 80%;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 #Notes article textarea,
-form textarea,
+#addNewNoteForm textarea,
 input {
   text-align: center;
   font-size: 18px;
 }
 
-form {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -ms-flex-align: center;
-  align-items: center;
-  line-height: 36px;
-  font-size: 18px;
+#Notes article {
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+  margin-left: 2%;
+  margin-right: 2%;
+  text-align: center;
+  width: 20%;
+}
+#Notes article textarea {
+  width: 100%;
+}
+#formSubmit {
+  margin-top: 9px;
+  margin-bottom: 9px;
+  border: none;
+  padding: 0.5em 0.8em;
+  background-color: rgb(143, 58, 58);
+  color: aliceblue;
+  border-radius: 0.5em;
+}
+
+button {
+  width: 46%;
+  margin-top: 9px;
+  margin-bottom: 9px;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+#search {
+  margin-bottom: 18px;
+}
+
+#addNewNoteForm textarea,
+input {
+  width: 100%;
+}
+@media only screen and (max-width: 680px) {
+  #Notes article {
+    width: 40%;
+  }
+  body :nth-child(3) {
+    order: 1;
+  }
 }
