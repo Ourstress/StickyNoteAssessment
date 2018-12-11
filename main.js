@@ -165,9 +165,11 @@ var Note = (function() {
       value: function renderNote() {
         this.article.ID = this.ID;
         this.title.textContent = this.titleContent;
+        this.title.classList.add("title");
         this.title.readOnly = true;
         this.article.append(this.title);
         this.content.textContent = this.textContent;
+        this.content.classList.add("content");
         this.content.readOnly = true;
         this.article.append(this.content);
         this.editNoteMode = this.editNoteMode.bind(this);
@@ -179,6 +181,7 @@ var Note = (function() {
         this.deleteButton.addEventListener("click", this.removeNote);
         this.article.append(this.deleteButton);
         this.notes.append(this.article);
+        this.content.style.height = this.content.scrollHeight + "px";
       }
     },
     {
