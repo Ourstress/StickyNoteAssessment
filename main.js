@@ -1,9 +1,13 @@
 class StickyNotes {
   constructor() {
     this.stickyNotes = [];
+    this.filteredStickies = [];
     this.updateNote = this.updateNote.bind(this);
     this.deleteNote = this.deleteNote.bind(this);
+    this.renderFilteredNotes = this.renderFilteredNotes.bind(this);
+    this.searchBarEventListener = this.searchBarEventListener.bind(this);
     this.notes = document.querySelector("#Notes");
+    this.searchBar = document.querySelector("#searchBar");
   }
 
   getNotesLocalStorage() {
@@ -12,10 +16,17 @@ class StickyNotes {
       : "";
   }
 
+  searchBarEventListener() {
+    let searchBarValue = this.searchBar.value.toLowerCase();
+    this.filteredStickies = this.stickyNotes.filter(function(note) {
+      return note.title.toLowerCase().includes(searchBarValue);
+    });
+    this.renderFilteredNotes();
+    console.log(this.filteredStickies);
+    console.log(this.stickyNotes);
+  }
   renderNotes() {
-    // REMOVE CHILD NODES
     this.notes.innerHTML = "";
-    // ADDING THIS INSIDE MAP FUNCTION!!!
     this.stickyNotes.map(function(note) {
       const newNote = new Note(
         note.title,
@@ -27,6 +38,26 @@ class StickyNotes {
       newNote.renderNote();
     }, this);
   }
+
+  renderFilteredNotes() {
+    this.notes.innerHTML = "";
+    this.filteredStickies.map(function(note) {
+      const newNote = new Note(
+        note.title,
+        note.content,
+        note.noteID,
+        this.updateNote,
+        this.deleteNote
+      );
+      newNote.renderNote();
+    }, this);
+  }
+
+  setup() {
+    this.getNotesLocalStorage;
+    this.renderNotes;
+    this.searchBar.addEventListener("input", this.searchBarEventListener);
+  }
   addNewNote(e) {
     e.preventDefault();
     const newNoteTitle = document.querySelector("#newNoteTitle");
@@ -36,6 +67,8 @@ class StickyNotes {
       title: newNoteTitle.value,
       content: newNoteContent.value
     });
+    newNoteTitle.value = "";
+    newNoteContent.value = "";
     this.renderNotes();
   }
 
@@ -112,15 +145,9 @@ class Note {
 }
 
 const stickynotes = new StickyNotes();
-
-(function setup() {
-  stickynotes.getNotesLocalStorage();
-  stickynotes.renderNotes();
-})();
+stickynotes.setup();
 
 const addNewNoteForm = document.querySelector("#addNewNoteForm");
 addNewNoteForm.addEventListener("submit", function(e) {
   stickynotes.addNewNote(e);
 });
-
-// add validation???
