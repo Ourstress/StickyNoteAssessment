@@ -3,16 +3,30 @@ body,
 #addNewNoteForm {
   line-height: 36px;
   font-size: 18px;
+  background-color: #9dbea3;
 }
 
 body,
-#Notes,
 #Notes article,
 #addNewNoteForm {
   display: -ms-flexbox;
   display: flex;
 }
 
+#Notes {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 90%;
+  height: 80%;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
 body,
 #addNewNoteForm {
   -ms-flex-direction: column;
@@ -20,7 +34,6 @@ body,
 }
 
 body,
-#Notes,
 #addNewNoteForm {
   -ms-flex-align: center;
   align-items: center;
@@ -32,19 +45,9 @@ header h1 {
     0 5px 10px rgba(0, 0, 0, 0.5);
 }
 
-#Notes,
 #Notes article {
   -ms-flex-direction: row;
   flex-direction: row;
-}
-
-#Notes {
-  width: 90%;
-  height: 80%;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
 }
 
 #Notes article {
@@ -55,6 +58,7 @@ header h1 {
   margin-right: 2%;
   text-align: center;
   width: 20%;
+  background-color: #ece3c3;
 }
 #Notes article textarea {
   width: 100%;
@@ -63,28 +67,31 @@ header h1 {
   margin-top: 9px;
   margin-bottom: 9px;
   border: none;
-  padding: 0.5em 0.8em;
+  padding: 0;
   border: 1px solid #133e4d;
   border-radius: 0.5em;
+  background-color: #def0f7;
+  font-size: 18px;
+  min-height: 18px;
 }
 
 button {
   width: 46%;
   height: 3vh;
+  min-height: 18px;
   margin-top: 9px;
   margin-bottom: 9px;
   margin-left: 2%;
   margin-right: 2%;
   border: 0;
-  /* border: 1px solid #133e4d;
-  border-radius: 0.5em; */
-  background-color: white;
+  background-color: #ece3c3;
 }
 .saveButton {
   background-image: url("https://img.freepik.com/free-icon/floppy-disk-save-button_318-77559.jpg?size=338&ext=jpg");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  mix-blend-mode: darken;
 }
 
 .deleteButton {
@@ -92,12 +99,15 @@ button {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  mix-blend-mode: darken;
 }
+/* mix-blend-mode: darken is incredibly awesome! */
 .editButton {
   background-image: url("https://image.freepik.com/free-icon/edit_318-31343.jpg");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  mix-blend-mode: darken;
 }
 #search {
   margin-bottom: 18px;
@@ -105,6 +115,7 @@ button {
 
 #search input {
   width: 100%;
+  background-color: #eef7fb;
 }
 
 #Notes article textarea,
@@ -113,6 +124,7 @@ input {
   text-align: center;
   font-size: 18px;
   resize: none;
+  overflow: auto;
 }
 #Notes article textarea {
   border: 0;
@@ -125,6 +137,7 @@ input {
   padding: 0;
   border: 0;
   outline: 1px solid black;
+  background-color: #def0f7;
 }
 /* default stylesheet comes with focus for select, textarea & input !!!! */
 textarea:focus {
@@ -134,6 +147,9 @@ input:focus {
   outline-offset: 0;
 }
 
+.title {
+  font-weight: 700;
+}
 @media only screen and (max-width: 680px) {
   #Notes article {
     width: 40%;

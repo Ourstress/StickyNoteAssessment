@@ -125,6 +125,7 @@ class Note {
     this.article.append(this.deleteButton);
     this.notes.append(this.article);
     this.content.style.height = this.content.scrollHeight + "px";
+    this.title.style.height = this.title.scrollHeight + "px";
   }
   editNoteMode() {
     this.editButton.classList.remove("editButton");

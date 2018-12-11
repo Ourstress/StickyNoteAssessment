@@ -182,6 +182,7 @@ var Note = (function() {
         this.article.append(this.deleteButton);
         this.notes.append(this.article);
         this.content.style.height = this.content.scrollHeight + "px";
+        this.title.style.height = this.title.scrollHeight + "px";
       }
     },
     {

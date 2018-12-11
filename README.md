@@ -19,7 +19,11 @@ Considering deploying your site using github pages or netlify.
 - CSS
 - HTML5
 
+# Notes
+
+The code was written in es6 Javascript syntax (refer to es6 code.js) and transpiled to browser-compatible javascript using babel.
+
 # Credits
 
-Inspired by Songguoqiang, Timmoti & Delphk
-Icons courtesy of Freepik.com
+- Inspired by Songguoqiang, Timmoti & Delphk
+- Icons courtesy of Freepik.com
