@@ -2,6 +2,8 @@ class StickyNotes {
   constructor() {
     this.stickyNotes = [];
     this.updateNote = this.updateNote.bind(this);
+    this.deleteNote = this.deleteNote.bind(this);
+    this.notes = document.querySelector("#Notes");
   }
 
   getNotesLocalStorage() {
@@ -11,13 +13,16 @@ class StickyNotes {
   }
 
   renderNotes() {
+    // REMOVE CHILD NODES
+    this.notes.innerHTML = "";
     // ADDING THIS INSIDE MAP FUNCTION!!!
     this.stickyNotes.map(function(note) {
       const newNote = new Note(
         note.title,
         note.content,
         note.noteID,
-        this.updateNote
+        this.updateNote,
+        this.deleteNote
       );
       newNote.renderNote();
     }, this);
@@ -35,15 +40,24 @@ class StickyNotes {
   }
 
   updateNote(title, content, noteID) {
-    console.log(this.stickyNotes);
-    this.stickyNotes.find(function(note) {
+    const noteToUpdate = this.stickyNotes.find(function(note) {
       return note.noteID === noteID;
     });
+    noteToUpdate.title = title;
+    noteToUpdate.content = content;
+    console.log(noteToUpdate);
+  }
+  deleteNote(noteID) {
+    const indexOfNoteToDelete = this.stickyNotes.findIndex(function(note) {
+      return note.noteID === noteID;
+    });
+    this.stickyNotes.splice(indexOfNoteToDelete, 1);
+    this.renderNotes();
   }
 }
 
 class Note {
-  constructor(titleContent, textContent, ID, updateNote) {
+  constructor(titleContent, textContent, ID, updateNote, deleteNote) {
     this.titleContent = titleContent;
     this.textContent = textContent;
     this.ID = ID;
@@ -51,8 +65,10 @@ class Note {
     this.title = document.createElement("textarea");
     this.content = document.createElement("textarea");
     this.editButton = document.createElement("button");
+    this.deleteButton = document.createElement("button");
     this.notes = document.querySelector("#Notes");
     this.updateNote = updateNote;
+    this.deleteNote = deleteNote;
   }
   renderNote() {
     this.article.ID = this.ID;
@@ -66,6 +82,10 @@ class Note {
     this.editNoteMode = this.editNoteMode.bind(this);
     this.editButton.addEventListener("click", this.editNoteMode);
     this.article.append(this.editButton);
+    this.deleteButton.textContent = "delete";
+    this.removeNote = this.removeNote.bind(this);
+    this.deleteButton.addEventListener("click", this.removeNote);
+    this.article.append(this.deleteButton);
     this.notes.append(this.article);
   }
   editNoteMode() {
@@ -86,6 +106,9 @@ class Note {
       this.content.readOnly = true;
     }
   }
+  removeNote() {
+    this.deleteNote(this.ID);
+  }
 }
 
 const stickynotes = new StickyNotes();
@@ -101,102 +124,3 @@ addNewNoteForm.addEventListener("submit", function(e) {
 });
 
 // add validation???
-
-// const notes = document.querySelector("#Notes");
-
-// const notesArray = localStorage.getItem("notes")
-//   ? JSON.parse(localStorage.getItem("notes"))
-//   : [
-//       {
-//         noteID: new Date().getTime(),
-//         title: "hello world",
-//         content: "your content goes here"
-//       }
-//     ];
-
-// function createNote(titleText, contentText, timeNow = new Date().getTime()) {
-//   const aNote = document.createElement("article");
-//   aNote.id = `id${timeNow}`;
-//   const title = document.createElement("textarea");
-//   title.textContent = titleText;
-//   title.readOnly = true;
-//   aNote.append(title);
-//   const content = document.createElement("textarea");
-//   content.textContent = contentText;
-//   content.readOnly = true;
-//   aNote.append(content);
-//   const editButton = document.createElement("button");
-//   editButton.textContent = "edit";
-//   editButton.addEventListener("click", function(e) {
-//     e.preventDefault();
-//     editNote(
-//       `id${timeNow}`,
-//       title,
-//       content,
-//       titleText,
-//       contentText,
-//       editButton
-//     );
-//   });
-//   aNote.append(editButton);
-//   notes.append(aNote);
-// }
-
-// function addNote(titleText, contentText) {
-//   const timeNow = new Date().getTime();
-//   if (titleText !== "" && contentText !== "") {
-//     createNote(titleText, contentText, timeNow);
-//     notesArray.push({
-//       noteID: `id${timeNow}`,
-//       title: titleText,
-//       content: contentText
-//     });
-//     localStorage.setItem("notes", JSON.stringify(notesArray));
-//   }
-// }
-
-// function editNote(
-//   articleKey,
-//   title,
-//   content,
-//   titleText,
-//   contentText,
-//   editButton
-// ) {
-//   content.readOnly = false;
-//   title.readOnly = false;
-//   editButton.textContent = "save";
-//   // remove event listener on editButton
-//   editButton.addEventListener("click", function(e) {
-//     e.preventDefault();
-//     saveNote(articleKey, title, content, titleText, contentText, editButton);
-//   });
-// }
-
-// function saveNote(
-//   articleKey,
-//   title,
-//   content,
-//   titleText,
-//   contentText,
-//   editButton
-// ) {
-//   content.value !== contentText ? console.log("content changed") : "";
-//   title.value !== titleText ? console.log("title changed") : "";
-// }
-
-// function onPageLoad() {
-//   notesArray.map(function(note) {
-//     createNote(note.title, note.content, note.noteID);
-//   });
-// }
-
-// onPageLoad();
-
-// const addNewNoteForm = document.querySelector("#addNewNoteForm");
-// addNewNoteForm.addEventListener("submit", function(e) {
-//   e.preventDefault();
-// const newNoteTitle = document.querySelector("#newNoteTitle");
-// const newNoteContent = document.querySelector("#newNoteContent");
-//   addNote(newNoteTitle.value, newNoteContent.value);
-// });
