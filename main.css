@@ -95,7 +95,12 @@ button {
 #addNewNoteForm textarea,
 input {
   width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 1px solid black;
 }
+
 @media only screen and (max-width: 680px) {
   #Notes article {
     width: 40%;
