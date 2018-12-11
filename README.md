@@ -21,4 +21,5 @@ Considering deploying your site using github pages or netlify.
 
 # Credits
 
-Inspired by timmoti & Delphk
+Inspired by Songguoqiang, Timmoti & Delphk
+Icons courtesy of Freepik.com

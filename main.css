@@ -70,15 +70,35 @@ header h1 {
 
 button {
   width: 46%;
+  height: 3vh;
   margin-top: 9px;
   margin-bottom: 9px;
   margin-left: 2%;
   margin-right: 2%;
-  border: 1px solid #133e4d;
-  border-radius: 0.5em;
+  border: 0;
+  /* border: 1px solid #133e4d;
+  border-radius: 0.5em; */
   background-color: white;
 }
+.saveButton {
+  background-image: url("https://img.freepik.com/free-icon/floppy-disk-save-button_318-77559.jpg?size=338&ext=jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
+.deleteButton {
+  background-image: url("https://image.freepik.com/free-icon/trash-bin_318-33500.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.editButton {
+  background-image: url("https://image.freepik.com/free-icon/edit_318-31343.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 #search {
   margin-bottom: 18px;
 }

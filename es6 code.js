@@ -113,18 +113,19 @@ class Note {
     this.content.textContent = this.textContent;
     this.content.readOnly = true;
     this.article.append(this.content);
-    this.editButton.textContent = "edit";
     this.editNoteMode = this.editNoteMode.bind(this);
     this.editButton.addEventListener("click", this.editNoteMode);
+    this.editButton.classList.add("editButton");
     this.article.append(this.editButton);
-    this.deleteButton.textContent = "delete";
+    this.deleteButton.classList.add("deleteButton");
     this.removeNote = this.removeNote.bind(this);
     this.deleteButton.addEventListener("click", this.removeNote);
     this.article.append(this.deleteButton);
     this.notes.append(this.article);
   }
   editNoteMode() {
-    this.editButton.textContent = "save";
+    this.editButton.classList.remove("editButton");
+    this.editButton.classList.add("saveButton");
     this.editButton.removeEventListener("click", this.editNoteMode);
     this.saveNote = this.saveNote.bind(this);
     this.editButton.addEventListener("click", this.saveNote);
@@ -134,7 +135,8 @@ class Note {
   saveNote() {
     if (this.title.value !== "" && this.content.value !== "") {
       this.updateNote(this.title.value, this.content.value, this.ID);
-      this.editButton.textContent = "edit";
+      this.editButton.classList.add("editButton");
+      this.editButton.classList.remove("saveButton");
       this.editButton.removeEventListener("click", this.saveNote);
       this.editButton.addEventListener("click", this.editNoteMode);
       this.title.readOnly = true;
